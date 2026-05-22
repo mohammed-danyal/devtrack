@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -322,9 +323,13 @@ export default async function HomePage() {
                 {/* Brand */}
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent)] to-blue-600 flex items-center justify-center text-white font-bold text-sm">
-                      D
-                    </div>
+                    <Image
+                      src="/favicon-32x32.png"
+                      alt="DevTrack Logo"
+                      width={32}
+                      height={32}
+                      className="rounded-lg"
+                    />
                     <span className="font-bold">DevTrack</span>
                   </div>
                   <p className="text-sm text-[var(--muted-foreground)]">
