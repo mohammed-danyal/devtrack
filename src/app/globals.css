@@ -40,8 +40,130 @@
   --tooltip-foreground: #f8fafc;
 }
 
+* {
+  @apply antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  transition: background-color 200ms ease, color 200ms ease;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+/* Typography System */
+@layer base {
+  h1 {
+    @apply font-bold tracking-tight;
+  }
+  h2 {
+    @apply font-bold tracking-tight;
+  }
+  h3 {
+    @apply font-semibold;
+  }
+}
+
+/* Smooth transitions and animations */
+@layer utilities {
+  .transition-smooth {
+    @apply transition-all duration-250 ease-out;
+  }
+
+  .transition-smooth-lg {
+    @apply transition-all duration-350 ease-out;
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)];
+  }
+
+  .focus-ring-dark {
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)] dark:focus:ring-offset-slate-950;
+  }
+
+  .gradient-accent {
+    @apply bg-gradient-to-r from-[var(--accent)] to-blue-600;
+  }
+
+  .gradient-accent-lg {
+    @apply bg-gradient-to-br from-[var(--accent)] via-indigo-600 to-blue-600;
+  }
+
+  .card-hover {
+    @apply transition-smooth hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .card-hover:hover {
+    border-color: var(--accent);
+  }
+
+  .card-glow {
+    @apply transition-smooth hover:shadow-glow;
+  }
+
+  .card-glow:hover {
+    border-color: var(--accent);
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border border-white/20 dark:border-slate-700/20;
+  }
+
+  .glass-dark {
+    @apply bg-slate-900/80 dark:bg-slate-950/80 backdrop-blur-lg border border-slate-700/50 dark:border-slate-600/30;
+  }
+
+  /* Section styling */
+  .section-container {
+    @apply w-full px-4 py-16 sm:py-20 lg:py-24;
+  }
+
+  .section-inner {
+    @apply max-w-6xl mx-auto;
+  }
+
+  /* Button base */
+  .btn-base {
+    @apply inline-flex items-center justify-center font-semibold transition-smooth focus-ring-dark;
+  }
+
+  .btn-primary {
+    @apply btn-base px-8 py-3 sm:py-3.5 rounded-lg text-white gradient-accent hover:shadow-lg hover:shadow-indigo-500/30 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply btn-base px-8 py-3 sm:py-3.5 rounded-lg border border-[var(--border)] text-[var(--foreground)] hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] active:scale-95;
+  }
+
+  .btn-tertiary {
+    @apply btn-base px-6 py-2 rounded-md text-[var(--foreground)] hover:bg-[var(--control)] active:scale-95;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent-soft)] text-[var(--accent)] text-sm font-medium;
+  }
+
+  /* Animated gradient */
+  .animated-gradient {
+    @apply bg-gradient-to-r from-[var(--accent)] via-indigo-600 to-blue-600 bg-[200%_auto] animate-pulse;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[var(--border)] rounded hover:bg-[var(--muted-foreground)];
 }
