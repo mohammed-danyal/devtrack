@@ -78,8 +78,8 @@ export default async function HomePage() {
                   </span>
                   <span className="block">
                     <span className="relative inline-block">
-                      <span className="absolute inset-0 bg-gradient-to-r from-[var(--accent)] via-indigo-600 to-blue-600 blur-xl opacity-30 animate-pulse" />
-                      <span className="relative bg-gradient-to-r from-[var(--accent)] via-indigo-600 to-blue-600 bg-clip-text text-transparent">
+                      <span className="absolute inset-0 bg-gradient-to-r from-[var(--accent)] via-[var(--accent)]/70 to-[var(--accent)] blur-xl opacity-30 animate-pulse" />
+                      <span className="relative bg-gradient-to-r from-[var(--accent)] via-[var(--accent)]/70 to-[var(--accent)] bg-clip-text text-transparent">
                         performance
                       </span>
                     </span>
@@ -137,19 +137,19 @@ export default async function HomePage() {
                 style={{ animationDelay: "0.4s" }}
               >
                 <div>
-                  <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[var(--accent)] to-blue-600 bg-clip-text text-transparent">
+                  <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[var(--accent)] to-[var(--accent)] bg-clip-text text-transparent">
                     10K+
                   </div>
                   <p className="text-xs sm:text-sm text-[var(--muted-foreground)] mt-1">Active Developers</p>
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[var(--accent)] to-blue-600 bg-clip-text text-transparent">
+                  <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[var(--accent)] to-[var(--accent)] bg-clip-text text-transparent">
                     100%
                   </div>
                   <p className="text-xs sm:text-sm text-[var(--muted-foreground)] mt-1">Open Source</p>
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[var(--accent)] to-blue-600 bg-clip-text text-transparent">
+                  <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[var(--accent)] to-[var(--accent)] bg-clip-text text-transparent">
                     Self-Host
                   </div>
                   <p className="text-xs sm:text-sm text-[var(--muted-foreground)] mt-1">Available</p>
@@ -277,7 +277,7 @@ export default async function HomePage() {
           <div className="section-inner">
             <div className="relative rounded-2xl overflow-hidden">
               {/* Background gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)] via-indigo-500 to-blue-600 opacity-90" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)] via-[var(--accent)]/60 to-[var(--accent)] opacity-90" />
               <div className="absolute inset-0 opacity-20">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--accent-foreground)] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                 <div className="absolute bottom-0 left-0 w-72 h-72 bg-[var(--accent-foreground)] rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
