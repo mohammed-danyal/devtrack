@@ -3,6 +3,18 @@
 import { useEffect, useRef, useState } from 'react';
 
 /* ═══════════════════════════════════════════
+   PUBLIC TYPES
+   ═══════════════════════════════════════════ */
+export type RepoStats = {
+  stars: number;
+  forks: number;
+  openIssues: number;
+  contributorCount: number;
+  goodFirstIssues: number;
+  contributors: Array<{ login: string; avatar_url: string; html_url: string }>;
+};
+
+/* ═══════════════════════════════════════════
    CONSTANTS
    ═══════════════════════════════════════════ */
 const A = '#818cf8';                  // accent — indigo
@@ -676,6 +688,168 @@ function SetupSection() {
 }
 
 /* ═══════════════════════════════════════════
+   OPEN SOURCE / CONTRIBUTE SECTION
+   ═══════════════════════════════════════════ */
+function ContributeSection({ stats }: { stats: RepoStats }) {
+  const [ref, vis] = useScrollReveal(0.08);
+
+  const statTiles = [
+    { icon: '★', value: stats.stars,          suffix: '',  label: 'GITHUB STARS' },
+    { icon: '⑂', value: stats.forks,          suffix: '',  label: 'FORKS' },
+    { icon: '◎', value: stats.contributorCount, suffix: '+', label: 'CONTRIBUTORS' },
+    { icon: '◈', value: stats.goodFirstIssues, suffix: '',  label: 'GOOD FIRST ISSUES' },
+  ];
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        padding: '80px clamp(20px,4vw,48px)',
+        borderTop: '1px solid #111',
+        opacity: vis ? 1 : 0,
+        transform: vis ? 'translateY(0)' : 'translateY(24px)',
+        transition: 'all 0.7s ease',
+      }}
+    >
+      {/* Label */}
+      <div style={{ fontFamily: MONO, fontSize: 10, color: '#333', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 40 }}>
+        OPEN SOURCE
+      </div>
+
+      {/* Stat tiles */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px,1fr))', gap: 12, marginBottom: 56 }}>
+        {statTiles.map(s => (
+          <div
+            key={s.label}
+            style={{
+              background: SURF, border: `1px solid ${BORDER}`,
+              borderRadius: 8, padding: '20px 20px 16px',
+            }}
+          >
+            <div style={{ fontFamily: MONO, fontSize: 10, color: '#444', letterSpacing: '0.1em', marginBottom: 10 }}>
+              {s.icon} {s.label}
+            </div>
+            <div style={{
+              fontFamily: MONO, fontWeight: 700,
+              fontSize: 'clamp(26px,3.5vw,42px)', color: TEXT,
+              lineHeight: 1, letterSpacing: '-0.03em',
+            }}>
+              <Counter end={s.value} active={vis} />
+              {s.suffix && <span style={{ color: '#444', fontSize: '0.55em' }}>{s.suffix}</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Headline + tagline */}
+      <div style={{ maxWidth: 680, marginBottom: 40 }}>
+        <h2 style={{
+          fontFamily: DISP, fontWeight: 800,
+          fontSize: 'clamp(28px,4vw,52px)', color: TEXT,
+          letterSpacing: '-0.03em', lineHeight: 1.05,
+          margin: '0 0 16px',
+        }}>
+          BUILT IN PUBLIC.<br />
+          <span style={{ color: A }}>SHIP WITH US.</span>
+        </h2>
+        <p style={{ fontSize: 16, color: MUTED, lineHeight: 1.7, margin: 0 }}>
+          DevTrack is fully open source — MIT licensed, self-hostable, and built by developers
+          who actually use it. Every widget, every metric, every API was contributed by
+          someone in this list. {stats.goodFirstIssues > 0 && (
+            <span style={{ color: TEXT }}>
+              {stats.goodFirstIssues} issues are tagged good&nbsp;first&nbsp;issue and waiting right now.
+            </span>
+          )}
+        </p>
+      </div>
+
+      {/* Contributor avatars */}
+      {stats.contributors.length > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', marginBottom: 40, gap: 0 }}>
+          {stats.contributors.map((c, i) => (
+            <a
+              key={c.login}
+              href={c.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`@${c.login}`}
+              style={{
+                width: 38, height: 38, borderRadius: '50%',
+                border: `2px solid ${BG}`,
+                marginLeft: i > 0 ? -11 : 0,
+                overflow: 'hidden', display: 'block',
+                position: 'relative', zIndex: stats.contributors.length - i,
+                transition: 'transform 0.15s, z-index 0s',
+                flexShrink: 0,
+              }}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.transform = 'translateY(-5px) scale(1.15)';
+                el.style.zIndex = '99';
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.transform = 'translateY(0) scale(1)';
+                el.style.zIndex = String(stats.contributors.length - i);
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`${c.avatar_url}&s=76`}
+                alt={c.login}
+                width={38}
+                height={38}
+                loading="lazy"
+                style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </a>
+          ))}
+          {stats.contributorCount > stats.contributors.length && (
+            <div style={{
+              width: 38, height: 38, borderRadius: '50%',
+              border: `2px solid ${BG}`,
+              background: '#181818', marginLeft: -11,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: MONO, fontSize: 9, color: '#555', flexShrink: 0,
+            }}>
+              +{stats.contributorCount - stats.contributors.length}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* CTA row */}
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+        <a
+          href="https://github.com/Priyanshu-byte-coder/devtrack/issues?q=label%3A%22good+first+issue%22+is%3Aopen"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="lnd-cta-primary"
+        >
+          ◈ Browse Good First Issues
+        </a>
+        <a
+          href="https://github.com/Priyanshu-byte-coder/devtrack/blob/main/CONTRIBUTING.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="lnd-cta-secondary"
+        >
+          CONTRIBUTING.md
+        </a>
+        <a
+          href="https://github.com/Priyanshu-byte-coder/devtrack/fork"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="lnd-cta-secondary"
+        >
+          ⑂ Fork Repository
+        </a>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════
    LANDING FOOTER  (above global Footer)
    ═══════════════════════════════════════════ */
 function LandingFooter() {
@@ -707,7 +881,7 @@ function LandingFooter() {
 /* ═══════════════════════════════════════════
    MAIN EXPORT
    ═══════════════════════════════════════════ */
-export default function LandingPage() {
+export default function LandingPage({ repoStats }: { repoStats: RepoStats }) {
   return (
     <div
       className="lnd-root"
@@ -720,6 +894,7 @@ export default function LandingPage() {
       <HeatmapSection />
       <StatsSection />
       <FeaturesSection />
+      <ContributeSection stats={repoStats} />
       <SetupSection />
       <LandingFooter />
     </div>
